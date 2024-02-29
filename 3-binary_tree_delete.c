@@ -11,15 +11,22 @@
  */
 void binary_tree_delete(binary_tree_t *tree)
 {
-	binary_tree_t *deleted_node;
+	binary_tree_t *deleted_right_node, *deleted_left_node;
 
 	if (tree == NULL)
 		return;
-	deleted_node = tree;
-	while (deleted_node != NULL)
+	deleted_right_node = tree;
+	deleted_left_node = tree->left;
+	while (deleted_right_node != NULL)
 	{
-		deleted_node = tree->right;
+		deleted_right_node = tree->right;
+		if (deleted_left_node != NULL)
+		{
+		deleted_left_node = tree->left;
+		free(tree->left);
+		tree->left = deleted_left_node;
+		}
 		free(tree);
-		tree = deleted_node;
+		tree = deleted_right_node;
 	}
 }
